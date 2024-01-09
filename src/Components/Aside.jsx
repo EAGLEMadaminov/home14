@@ -1,20 +1,20 @@
 import { useDispatch, useSelector } from "react-redux";
-
+import { useContext } from "react";
+import { SideBarContext } from "../Context/sideBar";
 const Aside = () => {
+  const { showBtn, showSidebar } = useContext(SideBarContext);
   const show = useSelector((store) => store.settings.showSidebar);
   const dispatch = useDispatch();
   const lang = useSelector((store) => store.settings.lang);
   const toggleSidebar = () => {
-    dispatch({
-      type: "TOGGLE_SIDEBAR",
-    });
+    showBtn();
   };
 
   return (
     <aside
       id="main-sidebar"
       className={`position-fixed d-flex justify-content-between top-0 bottom-0 bg-info left-0 p-3 text-end align-items-start ${
-        show ? "show" : ""
+        showSidebar ? "show" : ""
       }`}
     >
       <h2>lang: {lang}</h2>

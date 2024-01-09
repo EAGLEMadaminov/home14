@@ -1,14 +1,15 @@
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useContext } from "react";
+import { SideBarContext } from "../Context/sideBar";
 
 const Header = () => {
+  const { showBtn } = useContext(SideBarContext);
   const todos = useSelector((store) => store.todo);
   const dispatch = useDispatch();
 
   const toggleSidebar = () => {
-    dispatch({
-      type: "TOGGLE_SIDEBAR",
-    });
+    showBtn();
   };
 
   const handleChange = (e) => {
@@ -19,7 +20,7 @@ const Header = () => {
   };
   return (
     <header className="text-bg-primary py-3">
-      <nav className="container d-flex justify-content-between align-items-center m-0">
+      <nav className="container d-flex justify-content-between align-items-center m-0 mx-auto">
         <button className="btn btn-info" onClick={toggleSidebar}>
           <svg
             xmlns="http://www.w3.org/2000/svg"

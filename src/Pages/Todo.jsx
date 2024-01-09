@@ -1,27 +1,47 @@
 import { useDispatch, useSelector } from "react-redux";
+import { useContext } from "react";
+import {
+  addTodo,
+  deleteTodo,
+  toggleComplete,
+  updateTodo,
+} from "../Store/Slices/todoSlice";
+
+import { TodoContext } from "../Context";
+import { SideBarContext } from "../Context/sideBar";
 
 const Todo = ({ todo }) => {
+  const { checkCompelte, editItem, setEditItem } = useContext(TodoContext);
   const dispatch = useDispatch();
   const handleDelete = () => {
-    dispatch({
-      type: "DELETE",
-      payload: todo.id,
-    });
+    dispatch(deleteTodo(todo.id));
   };
   const handleCheck = () => {
-    dispatch({
-      type: "CHECK",
-      payload: todo.id,
-    });
+    // dispatch(toggleComplete(todo.id));
+    checkCompelte(todo.id);
+  };
+
+  const handleUpdate = () => {
+    dispatch(updateTodo(todo.id));
+    setEditItem(!editItem);
+  };
+
+  const handleChanged = (e) => {
+    console.log(e.target.value);
   };
   return (
     <li className="list-group-item d-flex justify-content-between">
       <span
-        className={`${todo.isCompleted ? "text-decoration-line-through" : ""}`}
+        onChange={(e) => handleChanged(e.target.value)}
+        className={todo.isComplete ? "text-decoration-line-through" : ""}
+        contentEditable={editItem}
       >
         {todo?.title}
       </span>
       <div className="actions d-flex gap-3">
+        <button className="btn btn-primary" onClick={handleUpdate}>
+          🖊
+        </button>
         <button className="btn btn-info" onClick={handleCheck}>
           ✅
         </button>
@@ -34,24 +54,20 @@ const Todo = ({ todo }) => {
 };
 
 const TodoApp = () => {
-  const dispatch = useDispatch();
+  const { addTodo, todos } = useContext(TodoContext);
+  // const dispatch = useDispatch();
 
-  const todos = useSelector((store) => store.todo);
+  // const todos = useSelector((store) => store.todo);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const title = e.target[0].value;
     if (!title) return alert("Input is required!");
 
-    dispatch({
-      type: "ADD_TODO",
-      payload: {
-        id: crypto.randomUUID(),
-        title,
-        isCompleted: false,
-      },
-    });
+    // dispatch(addTodo({ id: crypto.randomUUID(), title, isComplete: false }));
     e.target.reset();
+    const newTodo = { id: crypto.randomUUID(), title, isComplete: false };
+    addTodo(newTodo);
   };
 
   return (

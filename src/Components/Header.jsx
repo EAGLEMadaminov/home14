@@ -4,19 +4,20 @@ import { useContext } from "react";
 import { SideBarContext } from "../Context/sideBar";
 
 const Header = () => {
-  const { showBtn } = useContext(SideBarContext);
+  const { showBtn, setLang } = useContext(SideBarContext);
   const todos = useSelector((store) => store.todo);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const toggleSidebar = () => {
     showBtn();
   };
 
   const handleChange = (e) => {
-    dispatch({
-      type: "CHANGE_LANGUAGE",
-      payload: e.target.value,
-    });
+    setLang(e.target.value);
+    // dispatch({
+    //   type: "CHANGE_LANGUAGE",
+    //   payload: e.target.value,
+    // });
   };
   return (
     <header className="text-bg-primary py-3">

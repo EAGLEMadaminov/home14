@@ -2,10 +2,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useContext } from "react";
 import { SideBarContext } from "../Context/sideBar";
 const Aside = () => {
-  const { showBtn, showSidebar } = useContext(SideBarContext);
-  const show = useSelector((store) => store.settings.showSidebar);
-  const dispatch = useDispatch();
-  const lang = useSelector((store) => store.settings.lang);
+  const { showBtn, showSidebar, lang } = useContext(SideBarContext);
+  // const show = useSelector((store) => store.settings.showSidebar);
+  // const dispatch = useDispatch();
+  // const lang = useSelector((store) => store.settings.lang);
   const toggleSidebar = () => {
     showBtn();
   };
